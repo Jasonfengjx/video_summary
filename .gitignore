@@ -1,0 +1,13 @@
+# Bilibili Summary Project
+
+# 忽略下载内容和虚拟环境
+venv/
+downloads/
+__pycache__/
+*.pyc
+*.pyo
+*.srt
+*.mp3
+*.mp4
+*.log
+*.tmp
