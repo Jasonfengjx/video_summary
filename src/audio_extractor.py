@@ -3,28 +3,42 @@
 """
 import os
 import subprocess
+from typing import Any, Dict
 
-def extract_audio_from_video(video_path: str, output_dir: str, output_name: str = None) -> str:
+from response_utils import ok, fail
+
+
+def extract_audio_from_video(
+    video_path: str,
+    output_dir: str,
+    output_name: str = "audio.wav",
+    sample_rate: int = 16000,
+    channels: int = 1,
+    codec: str = "pcm_s16le",
+) -> Dict[str, Any]:
     """
-    使用ffmpeg从视频文件中提取音频，输出为mp3文件，返回音频文件路径
-    output_name: 指定输出文件名（如 audio.mp3），不指定则用视频原名
+    使用ffmpeg从视频文件中提取音频，输出为16k/16bit mono WAV
     """
-    if not os.path.exists(output_dir):
-        os.makedirs(output_dir)
-    if output_name:
-        audio_path = os.path.join(output_dir, output_name)
-    else:
-        base_name = os.path.splitext(os.path.basename(video_path))[0]
-        audio_path = os.path.join(output_dir, f"{base_name}.mp3")
+    os.makedirs(output_dir, exist_ok=True)
+    audio_path = os.path.join(output_dir, output_name)
     cmd = [
-        'ffmpeg',
-        '-i', video_path,
-        '-vn',
-        '-acodec', 'mp3',
-        '-y',
-        audio_path
+        "ffmpeg",
+        "-i",
+        video_path,
+        "-vn",
+        "-ac",
+        str(channels),
+        "-ar",
+        str(sample_rate),
+        "-acodec",
+        codec,
+        "-y",
+        audio_path,
     ]
-    print(f"正在提取音频: {video_path}")
-    subprocess.run(cmd, check=True)
-    print(f"音频提取完成，文件保存在: {audio_path}")
-    return audio_path
+    try:
+        subprocess.run(cmd, check=True)
+    except Exception as exc:
+        return fail(500, f"音频提取失败: {exc}")
+    if not os.path.exists(audio_path):
+        return fail(500, "音频提取失败: 未找到输出文件")
+    return ok(file_path=audio_path)
