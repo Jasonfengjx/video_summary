@@ -1,0 +1,50 @@
+app:
+  output_root: downloads
+  logs_dir: logs
+  temp_dir: temp
+  log_level: INFO
+
+download:
+  format: "bestvideo+bestaudio/best"
+  merge_output_format: "mp4"
+  cookies: ""
+  proxy: ""
+  retries: 3
+  backoff_seconds: 2
+  continue: true
+  p_number: null
+
+audio:
+  format: "wav"
+  sample_rate: 16000
+  channels: 1
+  keep_audio: false
+
+asr:
+  engine: "whisper"
+  model: "base"
+  language: "auto"
+  save_srt: true
+  save_json: true
+  use_cache: true
+
+llm:
+  provider: "dashscope"
+  api_base_url: "https://ark.cn-beijing.volces.com/api/coding/v3"
+  api_key_env: "DASHSCOPE_API_KEY"
+  model: "deepseek-v3.2"
+  prompt_path: "prompts/summary_prompt.txt"
+  chunk:
+    enabled: true
+    max_chars: 12000
+    overlap: 500
+
+frames:
+  enabled: true
+  max_frames: 8
+  image_format: "jpg"
+  quality: 2
+
+cleanup:
+  keep_video: false
+  keep_audio: false
