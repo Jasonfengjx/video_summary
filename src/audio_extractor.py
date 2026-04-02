@@ -4,14 +4,18 @@
 import os
 import subprocess
 
-def extract_audio_from_video(video_path: str, output_dir: str) -> str:
+def extract_audio_from_video(video_path: str, output_dir: str, output_name: str = None) -> str:
     """
     使用ffmpeg从视频文件中提取音频，输出为mp3文件，返回音频文件路径
+    output_name: 指定输出文件名（如 audio.mp3），不指定则用视频原名
     """
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    base_name = os.path.splitext(os.path.basename(video_path))[0]
-    audio_path = os.path.join(output_dir, f"{base_name}.mp3")
+    if output_name:
+        audio_path = os.path.join(output_dir, output_name)
+    else:
+        base_name = os.path.splitext(os.path.basename(video_path))[0]
+        audio_path = os.path.join(output_dir, f"{base_name}.mp3")
     cmd = [
         'ffmpeg',
         '-i', video_path,
