@@ -1,7 +1,19 @@
 # 🎬 视频自动总结笔记工具
 
 一款面向知识型视频的自动化笔记生成工具，实现“输入链接 → 结构化笔记输出”的闭环。适合课程、讲座、教程、评测等长视频内容的快速回顾与复盘。
-
+功能已实现完成。主要修改：
+1. 新增 playlist_fetcher.py - 获取B站系列/合集/频道视频列表
+2. 修改 main.py - 支持批量处理系列视频
+使用方法：
+# 处理单个视频
+python src/main.py --url "https://www.bilibili.com/video/BV1TTDTBbEo1"
+# 处理整个系列视频（科技每周补全，共94个视频）
+python src/main.py --playlist "https://space.bilibili.com/67079745/channel/collectiondetail?sid=3173076"
+输出结构：
+- 每个视频的总结保存在 downloads/{bvid}/summary.md
+- 系列视频统一保存在 downloads/series_{id}/ 目录
+- 生成 _index.md 索引文件汇总所有视频
+- 
 ## ✨ 核心能力
 
 - 🚀 **一键流程**：下载 → 音频抽取 → 转写 → 结构化总结 → 可选关键帧截图。
