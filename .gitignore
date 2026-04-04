@@ -3,6 +3,8 @@
 # 忽略下载内容和虚拟环境
 venv/
 downloads/
+logs/
+temp/
 __pycache__/
 *.pyc
 *.pyo
@@ -11,3 +13,4 @@ __pycache__/
 *.mp4
 *.log
 *.tmp
+cmd
